@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        .nav ul{
+            overflow: hidden;
+        }
+        .nav ul li{
+            float: left;
+            margin: 0 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <ul>
+            <li>首页</li>
+            <li>课堂详情</li>
+            <li>视频课程</li>
+            <li>关于我们</li>
+            <li>{{ username }}</li>
+        </ul>
+    </nav>
+
+    {% block body_block %}
+        <p style="background-color: red">这是父模板中的代码</p>
+    {% endblock %}
+
+    <footer>
+        这是底部
+    </footer>
+
+</body>
+</html>
