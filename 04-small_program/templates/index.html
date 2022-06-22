@@ -3,8 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>豆瓣微信小程序</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+
+        }
+        .container {
+            width: 375px;
+            height: 600px;
+            background: pink;
+        }
+        .search-group {
+            padding: 14px 8px;
+            background: #41be57;
+        }
+        .search-group .search-input {
+            background: #fff;
+            display: block;
+            width: 100%;
+            height: 30px;
+            border-radius: 5px;
+            outline: none;
+            border: none;
+
+        }
+
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="search-group">
+            <input type="text" class="search-input" placeholder="搜索...">
+        </div>
 
+        <div class="item-list-group">
+            <div class="item-list-top">
+                <span class="module-title">电影</span>
+                <a href="#" class="more-btn">更多</a>
+            </div>
+
+        </div>
+
+    </div>
 </body>
 </html>
