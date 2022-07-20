@@ -7,5 +7,5 @@
 
 from .user import user_bp
 from .news import news_bp
-
+from .cms import cms_bp
 

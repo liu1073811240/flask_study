@@ -5,15 +5,19 @@
 # @File : news.py
 # @Software: PyCharm
 
-from flask import Blueprint
+from flask import Blueprint, render_template, url_for
 
-news_bp = Blueprint('news', __name__)
+# 指定模板文件路径，还可以指定静态文件的查找路径。
+news_bp = Blueprint('news', __name__, url_prefix='/news', template_folder='zhiliao', static_folder='zhiliao_static')
+
 
 @news_bp.route('/list/')
 def news_list():
-    return '新闻列表'
+    print(url_for('news.new_detail'))
+    return render_template('news_list.html')
 
 
 @news_bp.route('/detail/')
 def new_detail():
     return '新闻详情页面'
+

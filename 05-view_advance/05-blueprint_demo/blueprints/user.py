@@ -8,9 +8,10 @@
 from flask import Blueprint
 
 
-user_bp = Blueprint('user', __name__)
+user_bp = Blueprint('user', __name__, url_prefix='/user')  # 访问地址要加入前缀
 
-# 个人中心的url与视图函数
+
+# 个人中心的url与视图函数。
 @user_bp.route('/profile/')
 def profile():
     return '个人中心页面'
