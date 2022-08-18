@@ -2,11 +2,12 @@
 # @Time : 2022/8/2 19:14
 # @Author : Liu Hui
 # @Email : 1073811240@qq.com
-# @File : demo2.py
+# @File : 02-ORM模型映射.py
 # @Software: PyCharm
 
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
+
 
 HOSTNAME = '127.0.0.1'  # 主机名
 PROT = '3306'

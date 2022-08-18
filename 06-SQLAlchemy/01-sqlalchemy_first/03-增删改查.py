@@ -2,7 +2,7 @@
 # @Time : 2022/8/2 20:11
 # @Author : Liu Hui
 # @Email : 1073811240@qq.com
-# @File : demo3.py
+# @File : 03-增删改查.py
 # @Software: PyCharm
 
 from sqlalchemy import create_engine, Column, Integer, String
