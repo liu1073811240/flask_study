@@ -1,9 +1,11 @@
 # -- coding: utf-8 --
-# @Time : 2022/8/17 18:03
+# @Time : 2022/8/22 17:51
 # @Author : Liu Hui
 # @Email : 1073811240@qq.com
-# @File : 05-Column常用参数.py
+# @File : 06-常用参数-update_time.py
 # @Software: PyCharm
+
+
 
 from sqlalchemy import create_engine, Column, Integer, String, INT, Float, \
     Boolean, DECIMAL, Enum, DateTime, Date, Time, String, Text
@@ -37,23 +39,15 @@ class Article(Base):
     create_time = Column(DateTime, default=datetime.now)  # 默认填写当前的时间
     read_count = Column(Integer)
 
-    title = Column(String(50), nullable=False, name='my_title')  # 设置为False不能为空，否则报错
+    title = Column(String(50), nullable=False)  # 设置为False不能为空，否则报错
 
-    telephone = Column(String(11), unique=True)
-
-    update_time = Column(DateTime, onupdate=datetime.now, default=datetime.now)  # 在第二次时间才会被更新。
-
-
-Base.metadata.drop_all()  # 删除数据库
-Base.metadata.create_all()  # 创建数据库
+    # telephone = Column(String(11), unique=True)
+    update_time = Column(DateTime, onupdate=datetime.now, default=datetime.now)  # 在第二次时间才会被更新, 使用default值
 
 
-article1 = Article(telephone='12345678987', title='nihao')
-# article2 = Article(telephone='abv')
-# article.create_time = datetime.now()
-# article1.title = 'abc'
-
-session.add(article1)
-# session.add_all([article1, article2])
+article = session.query(Article).first()
+article.title = '123'
 session.commit()
+
+
 
