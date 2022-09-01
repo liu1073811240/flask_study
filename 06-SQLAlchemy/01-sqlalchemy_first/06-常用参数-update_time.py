@@ -6,7 +6,6 @@
 # @Software: PyCharm
 
 
-
 from sqlalchemy import create_engine, Column, Integer, String, INT, Float, \
     Boolean, DECIMAL, Enum, DateTime, Date, Time, String, Text
 from sqlalchemy.ext.declarative import declarative_base
