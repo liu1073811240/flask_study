@@ -6,7 +6,7 @@
 # @Software: PyCharm
 
 from sqlalchemy import create_engine, Column, Integer, String, INT, Float, \
-    Boolean, DECIMAL, Enum, DateTime, Date, Time, String, Text, func
+    Boolean, DECIMAL, Enum, DateTime, Date, Time, String, Text, func, and_, or_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -16,7 +16,6 @@ DATABASE = 'first_sqlalchemy'
 USERNAME = 'root'
 PASSWORD = 'hui0202'
 
-
 DB_URI = "mysql+pymysql://{username}:{password}@{host}:{port}/{db}?charset=utf8".format(
     username=USERNAME, password=PASSWORD, host=HOSTNAME, port=PROT, db=DATABASE)
 
@@ -24,8 +23,8 @@ engine = create_engine(DB_URI)
 
 Base = declarative_base(engine)
 
-
 session = sessionmaker(engine)()
+
 
 class Article(Base):
     __tablename__ = 'article'
@@ -36,6 +35,7 @@ class Article(Base):
 
     def __repr__(self):
         return "<Article(title:%s)>" % self.title
+
 
 # 1. equal
 # article = session.query(Article).filter(Article.id == 1).first()
@@ -59,6 +59,20 @@ class Article(Base):
 # print(articles)
 
 # 6. is null
-articles = session.query(Article).filter(Article.context==None).all()
+# articles = session.query(Article).filter(Article.context==None).all()
+# print(articles)
+
+# 7. is not null
+# articles = session.query(Article).filter(Article.context != None).all()
+# print(articles)
+
+# 8. and
+# articles = session.query(Article).filter(Article.title == 'abc' and Article.context == 'abc').all()
+# articles = session.query(Article).filter(Article.title == 'abc', Article.context == 'abc').all()
+# print(articles)
+
+# 9. or
+articles = session.query(Article).filter(or_(Article.title == 'abc', Article.context == 'abc')).all()
+# articles = session.query(Article).filter(or_(Article.title == 'abc', Article.context == 'abc'))
 print(articles)
 
