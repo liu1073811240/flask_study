@@ -11,7 +11,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import enum  # 在python3中有
 
-
 HOSTNAME = '127.0.0.1'  # 主机名
 PROT = '3306'
 DATABASE = 'first_sqlalchemy'

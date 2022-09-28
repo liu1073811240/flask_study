@@ -7,6 +7,7 @@
 
 from sqlalchemy import create_engine
 
+
 HOSTNAME = '127.0.0.1'  # 主机名
 PROT = '3306'
 DATABASE = 'first_sqlalchemy'
