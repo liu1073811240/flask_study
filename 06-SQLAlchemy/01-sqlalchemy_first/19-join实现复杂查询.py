@@ -1,9 +1,10 @@
 # -- coding: utf-8 --
-# @Time : 2022/11/25 17:16
+# @Time : 2022/12/14 16:40
 # @Author : Liu Hui
 # @Email : 1073811240@qq.com
-# @File : 15-排序.py
+# @File : 19-join实现复杂查询.py
 # @Software: PyCharm
+
 from datetime import datetime
 
 from sqlalchemy import create_engine, Column, Integer, String, INT, Float, \
@@ -26,10 +27,15 @@ Base = declarative_base(engine)
 
 session = sessionmaker(engine)()
 
+
 class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(50), nullable=False)
+
+    def __repr__(self):
+        return "<User(username: %s)>" % self.username
+
 
 class Article(Base):
     __tablename__ = 'article'
@@ -38,38 +44,35 @@ class Article(Base):
     create_time = Column(DateTime, nullable=False, default=datetime.now)
     uid = Column(Integer, ForeignKey("user.id"))
 
-    author = relationship("User", backref=backref("articles", order_by=create_time.desc()))
-
-    # __mapper_args__ = {
-    #     "order_by": create_time.desc()
-    # }
+    author = relationship("User", backref="articles")
 
     def __repr__(self):
-        return "<Article(title:%s, create_time: %s)>" % (self.title, self.create_time)
+        return "<Article(title: %s)>" % self.title
 
 
 # Base.metadata.drop_all()
 # Base.metadata.create_all()
 #
-# article1 = Article(title='title1')
-# user = User(username='zhiliao')
-# user.articles = [article1]
-# session.add(user)
+# user1 = User(username='zhiliao')
+# user2 = User(username='ketang')
+#
+# for x in range(1):
+#     article = Article(title='title %s' % x)
+#     article.author = user1
+#     session.add(article)
 # session.commit()
 #
-# import time
-# time.sleep(2)
-#
-# article2 = Article(title='title2')
-# user.articles.append(article2)
+# for x in range(1, 3):
+#     article = Article(title='title %s' % x)
+#     article.author = user2
+#     session.add(article)
 # session.commit()
 
-# 排序操作
-# articles = session.query(Article).order_by(Article.create_time).all()  # 以创建时间正排序
-# articles = session.query(Article).order_by(Article.create_time.desc()).all()  # 以创建时间负排序
-# articles = session.query(Article).order_by("create_time").all()
-# articles = session.query(Article).all()
-# print(articles)
+# 找到所有的用户，按照发表的文章数量进行排序
+# result = session.query(User.username, func.count(Article.id)).join(Article, User.id==Article.uid).group_by(User.id)\
+#     .order_by(func.count(Article.id).desc())
+result = session.query(User.username, func.count(Article.id)).join(Article, User.id==Article.uid).group_by(User.id)\
+    .order_by(func.count(Article.id).desc()).all()
+print(result)
 
-user = session.query(User).first()
-print(user.articles)
+

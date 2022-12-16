@@ -1,9 +1,10 @@
 # -- coding: utf-8 --
-# @Time : 2022/11/25 17:16
+# @Time : 2022/12/5 16:56
 # @Author : Liu Hui
 # @Email : 1073811240@qq.com
-# @File : 15-排序.py
+# @File : 17-数据查询懒加载技术.py
 # @Software: PyCharm
+
 from datetime import datetime
 
 from sqlalchemy import create_engine, Column, Integer, String, INT, Float, \
@@ -38,38 +39,34 @@ class Article(Base):
     create_time = Column(DateTime, nullable=False, default=datetime.now)
     uid = Column(Integer, ForeignKey("user.id"))
 
-    author = relationship("User", backref=backref("articles", order_by=create_time.desc()))
-
-    # __mapper_args__ = {
-    #     "order_by": create_time.desc()
-    # }
+    author = relationship("User", backref=backref("articles", lazy='dynamic'))
 
     def __repr__(self):
-        return "<Article(title:%s, create_time: %s)>" % (self.title, self.create_time)
-
+        return "<Article(title): %s>" % self.title
 
 # Base.metadata.drop_all()
 # Base.metadata.create_all()
-#
-# article1 = Article(title='title1')
 # user = User(username='zhiliao')
-# user.articles = [article1]
-# session.add(user)
-# session.commit()
-#
-# import time
-# time.sleep(2)
-#
-# article2 = Article(title='title2')
-# user.articles.append(article2)
+# for x in range(100):
+#     article = Article(title="title %s" % x)
+#     article.author = user
+#     session.add(article)
 # session.commit()
 
-# 排序操作
-# articles = session.query(Article).order_by(Article.create_time).all()  # 以创建时间正排序
-# articles = session.query(Article).order_by(Article.create_time.desc()).all()  # 以创建时间负排序
-# articles = session.query(Article).order_by("create_time").all()
-# articles = session.query(Article).all()
-# print(articles)
+from sqlalchemy.orm.collections import InstrumentedList
+from sqlalchemy.orm.dynamic import AppenderQuery
+from sqlalchemy.orm.query import Query
 
-user = session.query(User).first()
-print(user.articles)
+user = session.query(User).first()  # 是一个Query对象
+# user = session.query(User)
+
+# print(user)
+# print(type(user))
+# print(type(user.articles))
+
+print(user.articles.filter(Article.id > 50).all())
+
+# 可以继续追加数据进去
+article = Article(title='title 100')
+user.articles.append(article)
+session.commit()
